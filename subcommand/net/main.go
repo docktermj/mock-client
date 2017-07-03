@@ -32,18 +32,17 @@ func Command(argv []string) {
 
 	usage := `
 Usage:
-    mock-server net [options] 
+    mock-client net [options] 
 
 Options:
    -h, --help
    --network=<network_type>  Type of network used for communication
-   --address=<address>       Address for network_type. Example (unix) /tmp/tmp.sock
+   --address=<address>       Address for specific network_type.
    --debug                   Log debugging messages
    
 Where:
    network_type   Examples: 'unix', 'tcp'
    address        Examples: '/tmp/test.sock', '127.0.0.1:12345'
-   
 `
 
 	// DocOpt processing.
@@ -75,10 +74,9 @@ Where:
 	address := args["--address"].(string)
 	isDebug := args["--debug"].(bool)
 
-	// Listen on the Unix Domain Socket
+	// Create a network connection.
 
 	if isDebug {
-
 	}
 
 	networkConnection, err := net.Dial(network, address)
@@ -87,11 +85,11 @@ Where:
 	}
 	defer networkConnection.Close()
 
-	// Start asynchronous Reader
+	// Start asynchronous Reader.
 
 	go reader(networkConnection)
 
-	// Loop through Writer
+	// Loop through Writer.
 
 	loopNumber := 1
 	for {

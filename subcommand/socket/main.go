@@ -32,7 +32,7 @@ func Command(argv []string) {
 
 	usage := `
 Usage:
-    mock-server socket [options] 
+    mock-client socket [options] 
 
 Options:
    -h, --help
@@ -63,7 +63,7 @@ Options:
 	socketFile := args["--socket-file"].(string)
 	isDebug := args["--debug"].(bool)
 
-	// Listen on the Unix Domain Socket
+	// Create a network connection.
 
 	if isDebug {
 	}
@@ -74,11 +74,11 @@ Options:
 	}
 	defer networkConnection.Close()
 
-	// Start asynchronous Reader
+	// Start asynchronous Reader.
 
 	go reader(networkConnection)
 
-	// Loop through Writer
+	// Loop through Writer.
 
 	loopNumber := 1
 	for {

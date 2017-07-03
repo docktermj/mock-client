@@ -32,7 +32,7 @@ func Command(argv []string) {
 
 	usage := `
 Usage:
-    mock-server port [options] 
+    mock-client port [options] 
 
 Options:
    -h, --help
@@ -70,7 +70,7 @@ Options:
 	}
 	address := fmt.Sprintf("%s:%s", hostname, port)
 
-	// Listen on the host:port.
+	// Create a network connection.
 
 	if isDebug {
 	}
@@ -81,11 +81,11 @@ Options:
 	}
 	defer networkConnection.Close()
 
-	// Start asynchronous Reader
+	// Start asynchronous Reader.
 
 	go reader(networkConnection)
 
-	// Loop through Writer
+	// Loop through Writer.
 
 	loopNumber := 1
 	for {
