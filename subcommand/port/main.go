@@ -1,4 +1,4 @@
-package socket
+package port
 
 // Inspirations:
 //  - https://gist.github.com/hakobe/6f70d69b8c5243117787fd488ae7fbf2
@@ -32,11 +32,12 @@ func Command(argv []string) {
 
 	usage := `
 Usage:
-    mock-server socket [options] 
+    mock-server port [options] 
 
 Options:
    -h, --help
-   --socket-file=<file>  Socket file
+   --host=<hostname>     Optional: hostname Default: 127.0.0.1
+   --port=<port_number>  Port number to connect
    --debug               Log debugging messages
 `
 
@@ -48,8 +49,8 @@ Options:
 
 	message := ""
 
-	if args["--socket-file"] == nil {
-		message += "Missing '--socket-file' parameter;"
+	if args["--port"] == nil {
+		message += "Missing '--port' parameter;"
 	}
 
 	if len(message) > 0 {
@@ -60,15 +61,21 @@ Options:
 
 	// Get commandline options.
 
-	socketFile := args["--socket-file"].(string)
+	port := args["--port"].(string)
 	isDebug := args["--debug"].(bool)
 
-	// Listen on the Unix Domain Socket
+	hostname := "127.0.0.1"
+	if args["--address"] != nil {
+		hostname = args["--address"].(string)
+	}
+	address := fmt.Sprintf("%s:%s", hostname, port)
+
+	// Listen on the host:port.
 
 	if isDebug {
 	}
 
-	networkConnection, err := net.Dial("unix", socketFile)
+	networkConnection, err := net.Dial("tcp", address)
 	if err != nil {
 		log.Fatal("Dial error", err)
 	}

@@ -1,4 +1,4 @@
-package socket
+package net
 
 // Inspirations:
 //  - https://gist.github.com/hakobe/6f70d69b8c5243117787fd488ae7fbf2
@@ -32,12 +32,18 @@ func Command(argv []string) {
 
 	usage := `
 Usage:
-    mock-server socket [options] 
+    mock-server net [options] 
 
 Options:
    -h, --help
-   --socket-file=<file>  Socket file
-   --debug               Log debugging messages
+   --network=<network_type>  Type of network used for communication
+   --address=<address>       Address for network_type. Example (unix) /tmp/tmp.sock
+   --debug                   Log debugging messages
+   
+Where:
+   network_type   Examples: 'unix', 'tcp'
+   address        Examples: '/tmp/test.sock', '127.0.0.1:12345'
+   
 `
 
 	// DocOpt processing.
@@ -48,8 +54,13 @@ Options:
 
 	message := ""
 
-	if args["--socket-file"] == nil {
-		message += "Missing '--socket-file' parameter;"
+	if args["--network"] == nil {
+		message += "Missing '--network' parameter;"
+	}
+
+	if args["--address"] == nil {
+		message += "Missing '--address' parameter;"
+
 	}
 
 	if len(message) > 0 {
@@ -60,15 +71,17 @@ Options:
 
 	// Get commandline options.
 
-	socketFile := args["--socket-file"].(string)
+	network := args["--network"].(string)
+	address := args["--address"].(string)
 	isDebug := args["--debug"].(bool)
 
 	// Listen on the Unix Domain Socket
 
 	if isDebug {
+
 	}
 
-	networkConnection, err := net.Dial("unix", socketFile)
+	networkConnection, err := net.Dial(network, address)
 	if err != nil {
 		log.Fatal("Dial error", err)
 	}

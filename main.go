@@ -5,6 +5,8 @@ import (
 	"log"
 
 	"github.com/docktermj/mock-client/common/runner"
+	"github.com/docktermj/mock-client/subcommand/net"
+	"github.com/docktermj/mock-client/subcommand/port"
 	"github.com/docktermj/mock-client/subcommand/socket"
 	"github.com/docopt/docopt-go"
 )
@@ -26,6 +28,8 @@ Options:
    -h, --help
 
 The mock-client commands are:
+   net      Test across a network
+   port     Test a port
    socket   Test a Unix Domain Socket
 
 See 'mock-client <command> --help' for more information on a specific command.
@@ -48,6 +52,8 @@ See 'mock-client <command> --help' for more information on a specific command.
 	// Reference: http://stackoverflow.com/questions/6769020/go-map-of-functions
 
 	functions := map[string]interface{}{
+		"net":    net.Command,
+		"port":   port.Command,
 		"socket": socket.Command,
 	}
 
