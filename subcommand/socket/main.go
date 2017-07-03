@@ -19,7 +19,7 @@ import (
 func reader(reader io.Reader) {
 	byteBuffer := make([]byte, 1024)
 	for {
-		numberOfBytesRead, err := reader.Read(byteBuffer[:])
+		numberOfBytesRead, err := reader.Read(byteBuffer)
 		if err != nil {
 			return
 		}
@@ -63,10 +63,13 @@ Options:
 	socketFile := args["--socket-file"].(string)
 	isDebug := args["--debug"].(bool)
 
-	// Create a network connection.
+	// Debugging information.
 
 	if isDebug {
+		log.Printf("Sending to '%s' network with address '%s'", "unix", socketFile)
 	}
+
+	// Create a network connection to a service.
 
 	networkConnection, err := net.Dial("unix", socketFile)
 	if err != nil {
@@ -80,7 +83,7 @@ Options:
 
 	// Loop through Writer.
 
-	loopNumber := 1
+	loopNumber := 0
 	for {
 		loopNumber += 1
 		outboundMessage := fmt.Sprintf("Sending #%d", loopNumber)
@@ -90,6 +93,6 @@ Options:
 			break
 		}
 		fmt.Println(">>>", outboundMessage)
-		time.Sleep(1e9)
+		time.Sleep(2 * time.Second)
 	}
 }

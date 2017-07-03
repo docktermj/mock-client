@@ -19,7 +19,7 @@ import (
 func reader(reader io.Reader) {
 	byteBuffer := make([]byte, 1024)
 	for {
-		numberOfBytesRead, err := reader.Read(byteBuffer[:])
+		numberOfBytesRead, err := reader.Read(byteBuffer)
 		if err != nil {
 			return
 		}
@@ -74,10 +74,13 @@ Where:
 	address := args["--address"].(string)
 	isDebug := args["--debug"].(bool)
 
-	// Create a network connection.
+	// Debugging information.
 
 	if isDebug {
+		log.Printf("Sending to '%s' network with address '%s'", network, address)
 	}
+
+	// Create a network connection to a service.
 
 	networkConnection, err := net.Dial(network, address)
 	if err != nil {
@@ -91,7 +94,7 @@ Where:
 
 	// Loop through Writer.
 
-	loopNumber := 1
+	loopNumber := 0
 	for {
 		loopNumber += 1
 		outboundMessage := fmt.Sprintf("Sending #%d", loopNumber)
@@ -101,6 +104,6 @@ Where:
 			break
 		}
 		fmt.Println(">>>", outboundMessage)
-		time.Sleep(1e9)
+		time.Sleep(2 * time.Second)
 	}
 }

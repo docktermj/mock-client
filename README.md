@@ -13,6 +13,9 @@ A program that simulates servers:
 ### Invocation
 
 ```console
+mock-client net --network tcp  --address 127.0.0.1:12345 --debug
+mock-client net --network unix --address /tmp/test.sock --debug
+mock-client port --port 12345
 mock-client socket --socket-file /var/run/xyz.sock
 ```
 
