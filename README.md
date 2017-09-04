@@ -29,6 +29,7 @@ mock-client socket --socket-file /var/run/xyz.sock
 export GOPATH="${HOME}/go"
 export PATH="${PATH}:${GOPATH}/bin:/usr/local/go/bin"
 export PROJECT_DIR=${GOPATH}/src/github.com/docktermj
+export REPOSITORY_DIR="${PROJECT_DIR}/mock-client"
 ```
 
 #### Download project
@@ -42,7 +43,7 @@ git clone git@github.com:docktermj/mock-client.git
 #### Download dependencies
 
 ```console
-cd ${PROJECT_DIR}/mock-client
+cd ${REPOSITORY_DIR}
 make dependencies
 ```
 
@@ -51,7 +52,7 @@ make dependencies
 #### Local build
 
 ```console
-cd ${PROJECT_DIR}/mock-client
+cd ${REPOSITORY_DIR}
 make build-local
 ```
 
@@ -60,7 +61,7 @@ The results will be in the `${GOPATH}/bin` directory.
 #### Docker build
 
 ```console
-cd ${PROJECT_DIR}/mock-client
+cd ${REPOSITORY_DIR}
 make build
 ```
 
@@ -69,7 +70,7 @@ The results will be in the `.../target` directory.
 ### Test
 
 ```console
-cd ${PROJECT_DIR}/mock-client
+cd ${REPOSITORY_DIR}
 make test-local
 ```
 
